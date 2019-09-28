@@ -58,9 +58,7 @@ $ helm update
 ## Deploy Nginx Ingress using Helm
 Execute the following `helm install` command to deploy an `nginx ingress` in the playground cluster inside the `nginx` namespace. 
 ```
-$ helm install bitnami/nginx-ingress-controller \
---name ingress \
---namespace ingress \
+$ helm install bitnami/nginx-ingress-controller --name ingress --namespace ingress \
 -f ./nginx/nginx-values.yaml
 ```
 
@@ -70,9 +68,7 @@ Execute the following `helm install` command to deploy the `kubertenes dashboard
 `kube-public` namespace is usally reserved for cluster usage, in case that some resources should be visible and readable publicly throughout the whole cluster. 
 
 ```
-$ helm install stable/kubernetes-dashboard \
---name dashboard \
---namespace kube-public
+$ helm install stable/kubernetes-dashboard --name dashboard --namespace kube-public
 ```
 When running `kubectl proxy`, use the following URL in your browser to access the `dashboard` UI.
 ```
