@@ -5,7 +5,7 @@ Before to start you need to install the following CLI: `kind`, `kubectl`, and `h
 
 The cluster will includes the following base components:
 - coredns (installed by default by kind)
-- nginix ingress
+- nginx ingress
 - k8s dashboard
 
 ## Create the cluster using Kind
@@ -46,9 +46,9 @@ kubectl get deployment tiller-deploy -n kube-system
 ```
 
 # Deploy Nginx Ingress using Helm
-Execute the following helm install command to deploy an `nginx ingress` in the playgorund cluster inside the `nginix` namespace. 
+Execute the following helm install command to deploy an `nginx ingress` in the playgorund cluster inside the `nginx` namespace. 
 ```
-helm install stable/nginx-ingress --name nginx-ingress --namespace ngnix
+helm install stable/nginx-ingress --name nginx-ingress --namespace nginx --set rbac.create=true
 ```
 
 # Deploy Kubernetes Dashboard using Helm
