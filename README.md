@@ -1,5 +1,5 @@
 # Playground k8s cluster 
-The following instructions will help you to create a local k8s cluster into your local machine using `kind`.
+The following instructions will help you to create a local k8s cluster into your local machine using [kind](https://kind.sigs.k8s.io)
 
 Before to start you need to install the following CLI: `kind`, `kubectl`, and `helm`.
 
@@ -45,13 +45,13 @@ You can check the tiller deployment in the `kube-system` namespace using `kubect
 kubectl get deployment tiller-deploy -n kube-system
 ```
 
-# Deploy Nginx Ingress using Helm
+## Deploy Nginx Ingress using Helm
 Execute the following helm install command to deploy an `nginx ingress` in the playgorund cluster inside the `nginx` namespace. 
 ```
 helm install stable/nginx-ingress --name nginx-ingress --namespace nginx --set rbac.create=true
 ```
 
-# Deploy Kubernetes Dashboard using Helm
+## Deploy Kubernetes Dashboard using Helm
 Execute the following helm install command to deploy an `kubertenes dashboard` in the playgorund cluster inside the `kube-public` namespace.
 
 `kube-public` namespace is usally reserved for cluster usage, in case that some resources should be visible and readable publicly throughout the whole cluster. 
