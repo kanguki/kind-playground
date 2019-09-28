@@ -61,7 +61,7 @@ Execute the following `helm install` command to deploy an `nginx ingress` in the
 $ helm install bitnami/nginx-ingress-controller \
 --name ingress \
 --namespace ingress \
---set rbac.create=true
+-f ./nginx/nginx-values.yaml
 ```
 
 ## Deploy Kubernetes Dashboard using Helm (TOFIX)
@@ -72,8 +72,7 @@ Execute the following `helm install` command to deploy the `kubertenes dashboard
 ```
 $ helm install stable/kubernetes-dashboard \
 --name dashboard \
---namespace kube-public \
---set rbac.create=true
+--namespace kube-public
 ```
 When running `kubectl proxy`, use the following URL in your browser to access the `dashboard` UI.
 ```

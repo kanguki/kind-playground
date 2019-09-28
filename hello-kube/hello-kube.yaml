@@ -40,10 +40,14 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
 spec:
+  tls:
+  - hosts:
+    - hello-kube.playground.me
   rules:
-  - host: playground.me
+  - host: hello-kube.playground.me
     http:
       paths:
-      - backend:
+      - path: /
+        backend:
           serviceName: hello-kube
           servicePort: 80
