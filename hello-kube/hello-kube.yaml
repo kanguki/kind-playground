@@ -45,5 +45,5 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: hello
+          serviceName: hello-kube
           servicePort: 80
