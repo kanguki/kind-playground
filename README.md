@@ -74,9 +74,14 @@ TOKEN=$(kubectl -n kube-system describe secret tiller| awk '$1=="token:"{print $
 kubectl config set-credentials kubernetes-admin --token=${TOKEN}
 ```
 
-After running `kubectl proxy`, use the following URL in your browser to access the `dashboard` UI.
+Use port forwarding to access the `kubertenes dashboard` service in the cluster.
 ```
-http://localhost:8001/api/v1/namespaces/kube-system/services/https:dashboard-kubernetes-dashboard:https/proxy/#!/login
+kubectl -n kube-system port-forward svc/dashboard-kubernetes-dashboard 8000:443
+```
+
+Then open your favorite browser using the following URL
+```
+https://localhost:8000
 ```
 
 ## Test ingress deploing the Hello-Kube using yaml (TOFIX)
