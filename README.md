@@ -62,17 +62,15 @@ $ helm install bitnami/nginx-ingress-controller --name ingress --namespace ingre
 -f ./nginx/nginx-values.yaml
 ```
 
-## Deploy Kubernetes Dashboard using Helm (TOFIX)
-Execute the following `helm install` command to deploy the `kubertenes dashboard` in the playground cluster inside the `kube-public` namespace.
-
-`kube-public` namespace is usally reserved for cluster usage, in case that some resources should be visible and readable publicly throughout the whole cluster. 
+## Deploy Kubernetes Dashboard using Helm 
+Execute the following `helm install` command to deploy the `kubertenes dashboard` in the playground cluster inside the `kube-system` namespace.
 
 ```
-$ helm install stable/kubernetes-dashboard --name dashboard --namespace kube-public
+$ helm install stable/kubernetes-dashboard --name dashboard --namespace kube-system
 ```
 When running `kubectl proxy`, use the following URL in your browser to access the `dashboard` UI.
 ```
-http://localhost:8001/api/v1/namespaces/kube-public/services/https:dashboard-kubernetes-dashboard:https/proxy/
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:dashboard-kubernetes-dashboard:https/proxy/
 ```
 
 ## Test ingress deploing the Hello-Kube using yaml (TOFIX)
