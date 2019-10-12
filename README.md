@@ -62,6 +62,22 @@ $ helm install bitnami/nginx-ingress-controller --name ingress --namespace ingre
 -f ./nginx/nginx-values.yaml
 ```
 
+## Test ingress deploing the Hello-Kube using yaml (OPTIONAL)
+Execute the following `kubectl apply` command to deploy `hello-kube` applications in the playground. Three instances of the application will be deployed.
+```
+$ kubectl apply -f ./hello-kube/hello-kube.yaml
+```
+
+After running `kubectl proxy`, use the following URL in your browser to access the `hello-kube` UI.
+```
+http://localhost:8001/api/v1/namespaces/default/services/hello-kube/proxy/
+```
+
+The following command will delete the `hello-kube` deployment.
+```
+$ kubectl delete -f ./hello-kube/hello-kube.yaml
+```
+
 ## Deploy Kubernetes Dashboard using Helm 
 Execute the following `helm install` command to deploy the `kubertenes dashboard` in the playground cluster inside the `kube-system` namespace.
 ```
@@ -84,18 +100,4 @@ Then open your favorite browser using the following URL
 https://localhost:8000
 ```
 
-## Test ingress deploing the Hello-Kube using yaml (TOFIX)
-Execute the following `kubectl apply` command to deploy `hello-kube` applications in the playground. Three instances of the application will be deployed.
-```
-$ kubectl apply -f ./hello-kube/hello-kube.yaml
-```
 
-After running `kubectl proxy`, use the following URL in your browser to access the `hello-kube` UI.
-```
-http://localhost:8001/api/v1/namespaces/default/services/hello-kube/proxy/
-```
-
-The following command will delete the `hello-kube` deployment.
-```
-$ kubectl delete -f ./hello-kube/hello-kube.yaml
-```
