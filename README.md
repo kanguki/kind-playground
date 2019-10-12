@@ -64,13 +64,19 @@ $ helm install bitnami/nginx-ingress-controller --name ingress --namespace ingre
 
 ## Deploy Kubernetes Dashboard using Helm 
 Execute the following `helm install` command to deploy the `kubertenes dashboard` in the playground cluster inside the `kube-system` namespace.
-
 ```
 $ helm install stable/kubernetes-dashboard --name dashboard --namespace kube-system
 ```
-When running `kubectl proxy`, use the following URL in your browser to access the `dashboard` UI.
+
+The `tiller` `service account` has cluster-admin permissions, so we add its token to the `${KUBECONFIG}` file. This allows to use the `${KUBECOFIG}` file to login in the `kubertenes dashboard`.
 ```
-http://localhost:8001/api/v1/namespaces/kube-system/services/https:dashboard-kubernetes-dashboard:https/proxy/
+TOKEN=$(kubectl -n kube-system describe secret tiller| awk '$1=="token:"{print $2}')
+kubectl config set-credentials kubernetes-admin --token=${TOKEN}
+```
+
+After running `kubectl proxy`, use the following URL in your browser to access the `dashboard` UI.
+```
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:dashboard-kubernetes-dashboard:https/proxy/#!/login
 ```
 
 ## Test ingress deploing the Hello-Kube using yaml (TOFIX)
@@ -79,7 +85,7 @@ Execute the following `kubectl apply` command to deploy `hello-kube` application
 $ kubectl apply -f ./hello-kube/hello-kube.yaml
 ```
 
-When running `kubectl proxy`, use the following URL in your browser to access the `hello-kube` UI.
+After running `kubectl proxy`, use the following URL in your browser to access the `hello-kube` UI.
 ```
 http://localhost:8001/api/v1/namespaces/default/services/hello-kube/proxy/
 ```
