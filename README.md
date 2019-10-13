@@ -11,7 +11,9 @@ The cluster will includes the following base components:
 ### TL;DR
 Use `./create-cluster.sh` and `./delete-cluster.sh` scripts to respectively create and delete the `playground` cluster.
 
-Execute the folowing command to access your cluster with `kubectl` and `helm` commands.
+Creating the cluster takes less of 5 minutes on my Ubuntu 18.04 laptop: i7-4700HQ CPU @ 2.40GHz, 16GRam.
+
+Then export the following variable to access your cluster using `kubectl` and `helm` commands.
 ```
 export KUBECONFIG="$(kind get kubeconfig-path --name="playground")"
 ```
