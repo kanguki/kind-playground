@@ -3,8 +3,13 @@
 export KUBECONFIG
 
 ### HELP
-help() {    
-cat <<END
+help() { 
+    
+    kubectl cluster-info
+    kubectl get nodes -o wide   
+
+    cat <<END
+    
 >>> Accessing the DASHBOARD.
 
 1) set your cluster config
@@ -37,7 +42,10 @@ create_cluster() {
     kind create cluster --name playground --config ./kind.config
 
     KUBECONFIG="$(kind get kubeconfig-path --name="playground")"
-    watch kubectl get nodes -o wide
+    
+    echo "...waiting for all node to be ready."
+    kubectl rollout status ds/kindnet -n kube-system
+    kubectl rollout status ds/kube-proxy -n kube-system
 }
 
 ### HELM
