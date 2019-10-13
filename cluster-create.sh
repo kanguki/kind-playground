@@ -44,12 +44,19 @@ kubectl rollout status deployment dashboard-kubernetes-dashboard -n kube-system
 TOKEN=$(kubectl -n kube-system describe secret tiller| awk '$1=="token:"{print $2}')
 kubectl config set-credentials kubernetes-admin --token=${TOKEN}
 
-### VIEW THE DASHBOARD
-echo ">>> Accessing the DASHBOARD."
-echo ""
-echo "exec the following command:"
-echo "   kubectl -n kube-system port-forward svc/dashboard-kubernetes-dashboard 8000:443"
-echo "then use the the following URL in your favorite borwser"
-echo "   https://localhost:8000"
+### ACCESSING THE DASHBOARD
+cat <<END
+>>> Accessing the DASHBOARD.
 
-echo "DONE."
+1) set your cluster config
+
+   export KUBECONFIG=$(kind get kubeconfig-path --name=playground)
+
+2) create a port forward to the dashboard service
+
+    kubectl -n kube-system port-forward svc/dashboard-kubernetes-dashboard 8443:443
+
+3) use the the following URL in your favorite browser
+
+    https://localhost:8443
+END

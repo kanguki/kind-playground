@@ -8,6 +8,14 @@ The cluster will includes the following base components:
 - nginx ingress
 - k8s dashboard
 
+## TL;DR
+Use `./create-cluster.sh` and `./delete-cluster.sh` scripts to respectively create and delete the `playground` cluster.
+
+Execute the folowing command to access your cluster with `kubectl` and `helm` commands.
+```
+export KUBECONFIG="$(kind get kubeconfig-path --name="playground")"
+```
+
 ## Create the cluster using Kind
 The following command will create the playground k8S cluster with one master and 3 worker nodes.
 ```
@@ -24,7 +32,7 @@ $ kubectl get all --all-namespaces
 
 ## Initialize Helm 
 `Tiller` is the server component for `helm`. `Tiller` will be present in the kubernetes cluster and the `helm` CLI talks to it for deploying applications using `helm charts`.
-`Helm` will be managing your cluster resources. So we need to add necessary permissions to the `tiller` components which will reside in the cluster `kube-system` namespace.
+`Helm` will manage your cluster resources. So we need to add necessary permissions to the `tiller` components which will reside in the cluster `kube-system` namespace.
 
 We need to:
 - create a `service account` named `tiller`
@@ -48,11 +56,12 @@ $ kubectl -n kube-system get deployment tiller-deploy
 ```
 
 ## Adding Bitnami Helm Repository
-Bitnami charts are carefully engineered, actively maintained and are the quickest and easiest way to deploy containers on a Kubernetes cluster.
+Bitnami charts are carefully engineered, actively maintained and are the quickest and easiest way to deploy containers on a Kubernetes cluster. 
 ```
 $ helm repo add bitnami https://charts.bitnami.com/bitnami
 $ helm update
 ```
+Be free to add others charts repositories following the same instructions.
 
 
 ## Deploy Nginx Ingress using Helm
@@ -92,12 +101,12 @@ kubectl config set-credentials kubernetes-admin --token=${TOKEN}
 
 Use port forwarding to access the `kubertenes dashboard` service in the cluster.
 ```
-kubectl -n kube-system port-forward svc/dashboard-kubernetes-dashboard 8000:443
+kubectl -n kube-system port-forward svc/dashboard-kubernetes-dashboard 8443:443
 ```
 
 Then open your favorite browser using the following URL
 ```
-https://localhost:8000
+https://localhost:8443
 ```
 
 
