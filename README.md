@@ -1,5 +1,7 @@
 # Playground k8s cluster 
-The following instructions lets you to create a local k8s cluster into your local machine using [kind](https://kind.sigs.k8s.io). The cluster configuration is **one master and 3 worker nodes**.
+The following instructions lets you to create a local k8s cluster into your local machine using [kind](https://kind.sigs.k8s.io). 
+
+The cluster configuration is **one master and 3 worker nodes**.
 
 Before to start you need to install an updated version of the following CLI: `kind`, `kubectl`, and `helm`.
 
