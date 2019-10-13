@@ -1,22 +1,30 @@
 # Playground k8s cluster 
-The following instructions will help you to create a local k8s cluster into your local machine using [kind](https://kind.sigs.k8s.io)
+The following instructions will lets you to create a local k8s cluster into your local machine using [kind](https://kind.sigs.k8s.io).
 
-Before to start you need to install the following CLI: `kind`, `kubectl`, and `helm`.
+Before to start you need to install an updated version of the following CLI: `kind`, `kubectl`, and `helm`.
 
 The cluster will includes the following base components:
 - coredns (installed by default by kind)
 - nginx ingress
 - k8s dashboard
 
-## TL;DR
+### TL;DR
 Use `./create-cluster.sh` and `./delete-cluster.sh` scripts to respectively create and delete the `playground` cluster.
 
 Execute the folowing command to access your cluster with `kubectl` and `helm` commands.
 ```
 export KUBECONFIG="$(kind get kubeconfig-path --name="playground")"
 ```
+### Limitations
+A cluster KIND uses the **docker in docker** technology to create a very light multi node cluster in your local machine. This is great to learn in deep more Kubernetes functionalities. 
 
-## Create the cluster using Kind
+But regrettably a KIND cluster is ephemeral. 
+
+There is actually no solution to survive the cluster after a shutdown. There are no KIND commands to stop and restart the cluster neither. Also, stopping manually the docker containers of the KIND cluster to starting them back will not recover the good health of the KIND cluster. See [KIND issue #148](https://github.com/kubernetes-sigs/kind/issues/148).
+
+Use **minikube** or **microk8s** alternatives if you need a non-ephemeral cluster. But keep in mind that these solutions are able to deploy a single node cluster only.
+
+## 1. Create the cluster using Kind
 The following command will create the playground k8S cluster with one master and 3 worker nodes.
 ```
 $ kind create cluster --name playground --config ./kind.config
@@ -30,7 +38,7 @@ $ kubectl get nodes -o wide
 $ kubectl get all --all-namespaces
 ```
 
-## Initialize Helm 
+## 2. Initialize Helm 
 `Tiller` is the server component for `helm`. `Tiller` will be present in the kubernetes cluster and the `helm` CLI talks to it for deploying applications using `helm charts`.
 `Helm` will manage your cluster resources. So we need to add necessary permissions to the `tiller` components which will reside in the cluster `kube-system` namespace.
 
@@ -55,24 +63,24 @@ You can check the tiller deployment in the `kube-system` namespace using `kubect
 $ kubectl -n kube-system get deployment tiller-deploy 
 ```
 
-## Adding Bitnami Helm Repository
+## 3. Adding Bitnami Helm Repository
 Bitnami charts are carefully engineered, actively maintained and are the quickest and easiest way to deploy containers on a Kubernetes cluster. 
 ```
 $ helm repo add bitnami https://charts.bitnami.com/bitnami
 $ helm update
 ```
-Be free to add others charts repositories following the same instructions.
+Be free to add others charts repositories following the previous similar instructions. [Helm Hub](https://hub.helm.sh/charts) is a web site listing most of the existing helm charts repositories.
 
 
-## Deploy Nginx Ingress using Helm
+## 4. Deploy Nginx Ingress using Helm
 Execute the following `helm install` command to deploy an `nginx ingress` in the playground cluster inside the `nginx` namespace. 
 ```
 $ helm install bitnami/nginx-ingress-controller --name ingress --namespace ingress \
 -f ./nginx/nginx-values.yaml
 ```
 
-## Test ingress deploing the Hello-Kube using yaml (OPTIONAL)
-Execute the following `kubectl apply` command to deploy `hello-kube` applications in the playground. Three instances of the application will be deployed.
+## 5. Test ingress deploing the Hello-Kube using yaml (OPTIONAL)
+Execute the following `kubectl apply` command to deploy `hello-kube` applications in the playground cluster. Three instances of the application will be created using a `replicaset` deployment.
 ```
 $ kubectl apply -f ./hello-kube/hello-kube.yaml
 ```
@@ -87,7 +95,7 @@ The following command will delete the `hello-kube` deployment.
 $ kubectl delete -f ./hello-kube/hello-kube.yaml
 ```
 
-## Deploy Kubernetes Dashboard using Helm 
+## 6. Deploy Kubernetes Dashboard using Helm 
 Execute the following `helm install` command to deploy the `kubertenes dashboard` in the playground cluster inside the `kube-system` namespace.
 ```
 $ helm install stable/kubernetes-dashboard --name dashboard --namespace kube-system
